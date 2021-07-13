@@ -12,7 +12,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends ResumableState<Profile> {
-
   bool logged = false;
   Image image = Image.asset("assets/images/profile.jpg");
   DateTime selectedDate = DateTime.now();
@@ -21,16 +20,14 @@ class _ProfileState extends ResumableState<Profile> {
   TextEditingController dateController = new TextEditingController();
   TextEditingController genderController = new TextEditingController();
   String selected_gender = "Gender";
-  static const _genders = [
-    'Female',
-    'Male'
-  ];
+  static const _genders = ['Female', 'Male'];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getLogged();
   }
+
   @override
   void onResume() {
     // Implement your code inside here
@@ -45,10 +42,11 @@ class _ProfileState extends ResumableState<Profile> {
         centerTitle: false,
         title: Text(""),
         elevation: 0,
-        iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
+        iconTheme:
+            IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
         leading: new IconButton(
           icon: new Icon(LineIcons.angle_left),
-          onPressed: () =>  Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Container(
@@ -57,40 +55,38 @@ class _ProfileState extends ResumableState<Profile> {
           shrinkWrap: true,
           padding: EdgeInsets.all(2.0),
           children: [
-            SizedBox( height: 100),
+            SizedBox(height: 100),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Stack(
-                 children: [
-                   Positioned(
-                     child: SizedBox(
-                       height: 120,
-                       width: 120,
-                       child: ClipOval(
-                           child: image
-                       ),
-                     ),
-                   ),
-                 ],
+                  children: [
+                    Positioned(
+                      child: SizedBox(
+                        height: 120,
+                        width: 120,
+                        child: ClipOval(child: image),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox( height: 50),
+            SizedBox(height: 50),
             Container(
               height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 25,vertical: 7),
+              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 7),
               padding: EdgeInsets.all(15),
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(50),
-                  boxShadow: [BoxShadow(
-                      color: Colors.black54.withOpacity(0.2),
-                      offset: Offset(0,0),
-                      blurRadius: 5
-                  )]
-              ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 5)
+                  ]),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -98,70 +94,73 @@ class _ProfileState extends ResumableState<Profile> {
                     child: TextField(
                       enabled: false,
                       controller: nameController,
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 15.0),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                          fontSize: 15.0),
                       decoration: InputDecoration.collapsed(
                         hintText: 'Full name',
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2.color),
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2.color),
                       ),
                     ),
                   ),
-                  Text("Full name",
-                    style: TextStyle(
-                        fontSize: 11
-                    ),
+                  Text(
+                    "Full name",
+                    style: TextStyle(fontSize: 11),
                   )
-
                 ],
               ),
             ),
             Container(
               height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 25,vertical: 7),
+              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 7),
               padding: EdgeInsets.all(15),
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(50),
-                  boxShadow: [BoxShadow(
-                      color: Colors.black54.withOpacity(0.2),
-                      offset: Offset(0,0),
-                      blurRadius: 5
-                  )]
-              ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 5)
+                  ]),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-
                 children: [
                   Flexible(
                     child: TextField(
                       enabled: false,
                       controller: emailController,
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 15.0),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                          fontSize: 15.0),
                       decoration: InputDecoration.collapsed(
                         hintText: 'E-mail',
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2.color),
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2.color),
                       ),
                     ),
                   ),
-                  Text("E-mail",
-                    style: TextStyle(
-                        fontSize: 11
-                    ),)
+                  Text(
+                    "E-mail",
+                    style: TextStyle(fontSize: 11),
+                  )
                 ],
               ),
             ),
             Container(
               height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 25,vertical: 7),
+              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 7),
               padding: EdgeInsets.all(15),
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(50),
-                  boxShadow: [BoxShadow(
-                      color: Colors.black54.withOpacity(0.2),
-                      offset: Offset(0,0),
-                      blurRadius: 5
-                  )]
-              ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 5)
+                  ]),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -169,44 +168,49 @@ class _ProfileState extends ResumableState<Profile> {
                     child: TextField(
                       controller: genderController,
                       enabled: false,
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 15.0),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                          fontSize: 15.0),
                       decoration: InputDecoration.collapsed(
                         hintText: 'Gender',
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2.color),
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2.color),
                       ),
                     ),
                   ),
-                  Text("Gender",
-                    style: TextStyle(
-                      fontSize: 11
-                    ),
+                  Text(
+                    "Gender",
+                    style: TextStyle(fontSize: 11),
                   )
                 ],
               ),
             ),
             Container(
               height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 25,vertical: 7),
+              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 7),
               padding: EdgeInsets.all(15),
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(50),
-                  boxShadow: [BoxShadow(
-                      color: Colors.black54.withOpacity(0.2),
-                      offset: Offset(0,0),
-                      blurRadius: 5
-                  )]
-              ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black54.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 5)
+                  ]),
               child: Row(
                 children: [
                   Flexible(
                     child: TextField(
                       controller: dateController,
                       enabled: false,
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 15.0),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                          fontSize: 15.0),
                       decoration: InputDecoration.collapsed(
                         hintText: 'Date of birth',
-                        hintStyle: TextStyle(color: Theme.of(context).textTheme.bodyText2.color),
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2.color),
                       ),
                     ),
                   ),
@@ -215,15 +219,16 @@ class _ProfileState extends ResumableState<Profile> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25,vertical: 7),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 7),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
                 child: Material(
                   color: Theme.of(context).accentColor, // button color
                   child: InkWell(
                     splashColor: Colors.white, //
-                    onTap: (){
-                      Route route = MaterialPageRoute(builder: (context) => Edit());
+                    onTap: () {
+                      Route route =
+                          MaterialPageRoute(builder: (context) => Edit());
                       push(context, route);
                     },
                     child: Container(
@@ -234,16 +239,12 @@ class _ProfileState extends ResumableState<Profile> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(LineIcons.edit,color: Colors.white,size: 18),
+                          Icon(LineIcons.edit, color: Colors.white, size: 18),
                           SizedBox(width: 5),
                           Text(
-                              'Edit profile',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13
-                            ),
+                            'Edit profile',
+                            style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
-
                         ],
                       ),
                     ),
@@ -258,28 +259,24 @@ class _ProfileState extends ResumableState<Profile> {
   }
 
   Future<String> getLogged() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     logged = await prefs.getBool("LOGGED_USER");
 
-    if(logged == true) {
-
+    if (logged == true) {
       image = Image.network(await prefs.getString("IMAGE_USER"));
       nameController.text = await prefs.getString("NAME_USER");
       emailController.text = await prefs.getString("EMAIL_USER");
       String gender = await prefs.getString("GENDER_USER");
-      selected_gender = (gender== "" || gender == null)? "Gender":gender;
+      selected_gender = (gender == "" || gender == null) ? "Gender" : gender;
       String date = await prefs.getString("DATE_USER");
-      date =  (date== "" || date == null)? "1901-01-01":date;
+      date = (date == "" || date == null) ? "1901-01-01" : date;
       final f = new DateFormat('yyyy-mm-dd');
 
-      dateController.text  =  date;
-      selectedDate =   f.parse(date);
+      dateController.text = date;
+      selectedDate = f.parse(date);
       genderController.text = selected_gender;
-      setState(() {
-
-      });
-    }else{
+      setState(() {});
+    } else {
       logged = false;
       image = Image.asset("assets/images/profile.jpg");
     }

@@ -17,9 +17,6 @@ import 'package:myteam/screens/tryagain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteList extends StatefulWidget {
-
-
-
   @override
   _FavoriteListState createState() => _FavoriteListState();
 }
@@ -33,12 +30,12 @@ class _FavoriteListState extends State<FavoriteList> {
     refreshing = false;
     _getList();
     super.initState();
-
   }
+
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  bool loading =  false;
-  String state =  "progress";
-  bool refreshing =  true;
+  bool loading = false;
+  String state = "progress";
+  bool refreshing = true;
 
   @override
   Widget build(BuildContext context) {
@@ -46,95 +43,96 @@ class _FavoriteListState extends State<FavoriteList> {
       appBar: AppBar(
           centerTitle: false,
           backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
           leading: new IconButton(
             icon: new Icon(LineIcons.angle_left),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text("My Favorite",style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color)),
-          elevation: 0.0
-      ),
+          title: Text("My Favorite",
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1.color)),
+          elevation: 0.0),
       body: buildHome(),
     );
   }
 
-  Future<List<Article>>  _getList() async{
-      setState(() {
-        state =  "progress";
-      });
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      String  favoritePostsString=  await prefs.getString('post_favorires');
-
-      if(favoritePostsString != null){
-        favoritePostsList = Post.decode(favoritePostsString);
-      }
-      if(favoritePostsList == null){
-        favoritePostsList= new List();
-      }
-      print(favoritePostsList.length.toString());
-      for(Post post in favoritePostsList){
-          print(post.title);
-      }
-
-      setState(() {
-      state =  "success";
+  Future<List<Article>> _getList() async {
+    setState(() {
+      state = "progress";
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    String favoritePostsString = await prefs.getString('post_favorires');
+
+    if (favoritePostsString != null) {
+      favoritePostsList = Post.decode(favoritePostsString);
+    }
+    if (favoritePostsList == null) {
+      favoritePostsList = new List();
+    }
+    print(favoritePostsList.length.toString());
+    for (Post post in favoritePostsList) {
+      print(post.title);
+    }
+
+    setState(() {
+      state = "success";
+    });
   }
+
   Widget buildHome() {
-    switch(state){
+    switch (state) {
       case "success":
         return RefreshIndicator(
           backgroundColor: Theme.of(context).primaryColor,
           key: refreshKey,
-          onRefresh:_getList,
-          child:
-          (favoritePostsList.length > 0)?
-
-          ListView.builder(
-              itemCount: favoritePostsList.length,
-              itemBuilder: (context, index) {
-                return PostWidget(post:favoritePostsList[index],favorite:postFavorite);
-              }
-          ):EmptyWidget(context),
+          onRefresh: _getList,
+          child: (favoritePostsList.length > 0)
+              ? ListView.builder(
+                  itemCount: favoritePostsList.length,
+                  itemBuilder: (context, index) {
+                    return PostWidget(
+                        post: favoritePostsList[index], favorite: postFavorite);
+                  })
+              : EmptyWidget(context),
         );
         break;
       case "progress":
         return LoadingWidget();
         break;
       case "error":
-        return TryAgainButton(action:(){
+        return TryAgainButton(action: () {
           refreshing = false;
           _getList();
         });
         break;
     }
   }
+
   postFavorite(Post post) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String  favoritePostsString=  await prefs.getString('post_favorires');
+    String favoritePostsString = await prefs.getString('post_favorires');
 
-    if(favoritePostsString != null){
+    if (favoritePostsString != null) {
       favoritePostsList = Post.decode(favoritePostsString);
     }
-    if(favoritePostsList == null){
-      favoritePostsList= new List();
+    if (favoritePostsList == null) {
+      favoritePostsList = new List();
     }
 
-
-    Post favorited_post =  null;
-    for(Post favorite_post in favoritePostsList){
-      if(favorite_post.id == post.id){
+    Post favorited_post = null;
+    for (Post favorite_post in favoritePostsList) {
+      if (favorite_post.id == post.id) {
         favorited_post = favorite_post;
       }
     }
-    if(favorited_post == null){
+    if (favorited_post == null) {
       favoritePostsList.add(post);
       setState(() {
         post.favorite = true;
       });
-    }else{
+    } else {
       favoritePostsList.remove(favorited_post);
       setState(() {
         post.favorite = false;
@@ -142,7 +140,6 @@ class _FavoriteListState extends State<FavoriteList> {
     }
 
     String encodedData = Post.encode(favoritePostsList);
-    prefs.setString('post_favorires',encodedData);
+    prefs.setString('post_favorires', encodedData);
   }
-
 }

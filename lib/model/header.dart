@@ -13,13 +13,20 @@ class Header {
   final String row7;
   final String row8;
 
+  Header(
+      {this.id,
+      this.prefix,
+      this.label,
+      this.row1,
+      this.row2,
+      this.row3,
+      this.row4,
+      this.row5,
+      this.row6,
+      this.row7,
+      this.row8});
 
-  Header({this.id, this.prefix, this.label, this.row1, this.row2,
-    this.row3, this.row4, this.row5, this.row6, this.row7, this.row8});
-
-  factory Header.fromJson(Map<String, dynamic> parsedJson){
-
-
+  factory Header.fromJson(Map<String, dynamic> parsedJson) {
     return Header(
       id: parsedJson['id'],
       prefix: parsedJson['prefix'],
@@ -32,11 +39,6 @@ class Header {
       row6: parsedJson['row6'],
       row7: parsedJson['row7'],
       row8: parsedJson['row8'],
-
     );
   }
-
-
-
-
 }

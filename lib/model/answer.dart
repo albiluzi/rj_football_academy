@@ -5,11 +5,10 @@ class Answer {
 
   Answer({this.id, this.answer, this.votes});
 
-  factory Answer.fromJson(Map<String, dynamic> parsedJson){
+  factory Answer.fromJson(Map<String, dynamic> parsedJson) {
     return Answer(
         id: parsedJson['id'],
-        answer : parsedJson['answer'],
-        votes : parsedJson ['votes']
-    );
+        answer: parsedJson['answer'],
+        votes: parsedJson['votes']);
   }
 }

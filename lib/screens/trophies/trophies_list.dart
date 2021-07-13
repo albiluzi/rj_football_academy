@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:myteam/api/api_rest.dart';
@@ -11,12 +10,8 @@ import 'package:myteam/screens/tryagain.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-
-
 class TrophiesList extends StatefulWidget {
-
   Team team;
-
 
   TrophiesList({this.team});
 
@@ -25,51 +20,48 @@ class TrophiesList extends StatefulWidget {
 }
 
 class _TrophiesListState extends State<TrophiesList> {
-
-
-
   @override
   void initState() {
     // TODO: implement initState
     refreshing = false;
     _getList();
     super.initState();
-
   }
+
   List<Trophy> trophiesList = List();
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  bool loading =  false;
-  String state =  "progress";
-  bool refreshing =  true;
+  bool loading = false;
+  String state = "progress";
+  bool refreshing = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
           centerTitle: false,
           backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
           leading: new IconButton(
             icon: new Icon(LineIcons.angle_left),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text(widget.team.title,style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color)),
-          elevation: 0.0
-      ),
+          title: Text(widget.team.title,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1.color)),
+          elevation: 0.0),
       body: buildHome(),
     );
   }
 
-  Future<List<Trophy>>  _getList() async{
-    if(loading)
-      return null;
+  Future<List<Trophy>> _getList() async {
+    if (loading) return null;
     trophiesList.clear();
-    loading =  true;
+    loading = true;
 
-    if(refreshing ==  false){
+    if (refreshing == false) {
       setState(() {
-        state =  "progress";
+        state = "progress";
       });
       refreshing = true;
     }
@@ -80,50 +72,49 @@ class _TrophiesListState extends State<TrophiesList> {
     } catch (ex) {
       loading = false;
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
-    if(!loading)
-      return null;
+    if (!loading) return null;
 
     if (response.statusCode == 200) {
-      var data  = await http.get(apiRest.getTrophiesByTeam(widget.team.id));
-      var jsonData =  convert.jsonDecode(data.body);
-      for(Map i in jsonData){
+      var data = await http.get(apiRest.getTrophiesByTeam(widget.team.id));
+      var jsonData = convert.jsonDecode(data.body);
+      for (Map i in jsonData) {
         Trophy position = Trophy.fromJson(i);
         trophiesList.add(position);
       }
       setState(() {
-        state =  "success";
+        state = "success";
       });
     } else {
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
     loading = false;
     return trophiesList;
   }
+
   Widget buildHome() {
-    switch(state){
+    switch (state) {
       case "success":
         return RefreshIndicator(
           backgroundColor: Theme.of(context).primaryColor,
           key: refreshKey,
-          onRefresh:_getList,
+          onRefresh: _getList,
           child: ListView.builder(
               itemCount: trophiesList.length,
               itemBuilder: (context, index) {
-                return TrophyWidget(trophy:trophiesList[index]);
-              }
-          ),
+                return TrophyWidget(trophy: trophiesList[index]);
+              }),
         );
         break;
       case "progress":
         return LoadingWidget();
         break;
       case "error":
-        return TryAgainButton(action:(){
+        return TryAgainButton(action: () {
           refreshing = false;
           _getList();
         });

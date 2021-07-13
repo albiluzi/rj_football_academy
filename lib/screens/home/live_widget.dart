@@ -14,6 +14,7 @@ class _LiveWidgetState extends State<LiveWidget> {
     super.initState();
     //changeOpacity();
   }
+
   changeOpacity() {
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
@@ -22,6 +23,7 @@ class _LiveWidgetState extends State<LiveWidget> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +40,7 @@ class _LiveWidgetState extends State<LiveWidget> {
                 AnimatedOpacity(
                   opacity: opacity,
                   duration: Duration(seconds: 1),
-                  child:  ClipOval(
+                  child: ClipOval(
                     child: Container(
                       color: Colors.white,
                       height: 7,
@@ -52,8 +54,7 @@ class _LiveWidgetState extends State<LiveWidget> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),

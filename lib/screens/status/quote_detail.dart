@@ -29,44 +29,45 @@ class QuoteDetail extends StatefulWidget {
   Function shared;
   bool back;
 
-  QuoteDetail({this.status, this.liked,this.viewed,this.shared,this.back = true});
+  QuoteDetail(
+      {this.status, this.liked, this.viewed, this.shared, this.back = true});
 
   @override
   _QuoteDetailState createState() => _QuoteDetailState();
 }
 
 class _QuoteDetailState extends State<QuoteDetail> {
+  List<String> menuList = ["Copy as text", "Report photo"];
+  List<IconData> menuIcons = [LineIcons.copy, LineIcons.flag];
 
-
-  List<String> menuList = ["Copy as text","Report photo"];
-  List<IconData> menuIcons =[LineIcons.copy,LineIcons.flag];
-
-  BannerAd myBanner ;
+  BannerAd myBanner;
   Container adContainer = Container(height: 0);
   Widget _currentAd = SizedBox(width: 0.0, height: 0.0);
   AdsProvider adsProvider;
 
-  initBannerAds() async{
+  initBannerAds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    adsProvider =  AdsProvider(prefs,(Platform.isAndroid)?TargetPlatform.android:TargetPlatform.iOS);
+    adsProvider = AdsProvider(prefs,
+        (Platform.isAndroid) ? TargetPlatform.android : TargetPlatform.iOS);
     print(adsProvider.getBannerType());
-    if(adsProvider.getBannerType() == "ADMOB"){
+    if (adsProvider.getBannerType() == "ADMOB") {
       showAdmobBanner();
-    }else if(adsProvider.getBannerType() == "FACEBOOK"){
+    } else if (adsProvider.getBannerType() == "FACEBOOK") {
       showFacebookBanner();
-    }else if(adsProvider.getBannerType() == "BOTH"){
-      if(adsProvider.getBannerLocal() == "FACEBOOK"){
+    } else if (adsProvider.getBannerType() == "BOTH") {
+      if (adsProvider.getBannerLocal() == "FACEBOOK") {
         adsProvider.setBannerLocal("ADMOB");
         showFacebookBanner();
-      }else{
+      } else {
         adsProvider.setBannerLocal("FACEBOOK");
         showAdmobBanner();
       }
     }
   }
-  showFacebookBanner(){
+
+  showFacebookBanner() {
     String banner_fan_id = adsProvider.getBannerFacebookId();
-    print("banner_fan_id : "+banner_fan_id);
+    print("banner_fan_id : " + banner_fan_id);
     setState(() {
       _currentAd = FacebookBannerAd(
         placementId: banner_fan_id,
@@ -77,10 +78,11 @@ class _QuoteDetailState extends State<QuoteDetail> {
       );
     });
   }
-  showAdmobBanner(){
+
+  showAdmobBanner() {
     String banner_admob_id = adsProvider.getBannerAdmobId();
     myBanner = BannerAd(
-      adUnitId:banner_admob_id,
+      adUnitId: banner_admob_id,
       size: AdSize.fullBanner,
       request: AdRequest(),
       listener: AdListener(
@@ -88,13 +90,12 @@ class _QuoteDetailState extends State<QuoteDetail> {
           onAdFailedToLoad: (Ad ad, LoadAdError error) {
             ad.dispose();
             print('Ad failed to load: $error');
-          }
-      ),
+          }),
     );
     myBanner.load();
     AdWidget adWidget = AdWidget(ad: myBanner);
     setState(() {
-      adContainer =  Container(
+      adContainer = Container(
         alignment: Alignment.center,
         child: adWidget,
         width: myBanner.size.width.toDouble(),
@@ -102,52 +103,59 @@ class _QuoteDetailState extends State<QuoteDetail> {
       );
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 500), () {
-      initBannerAds();
-    });
-    if(widget.back == false)
-        initLiked();
-   if(widget.back == false)
+    // Future.delayed(Duration(milliseconds: 500), () {
+    //   initBannerAds();
+    // });
+    if (widget.back == false) initLiked();
+    if (widget.back == false)
       addView(widget.status);
     else
       widget.viewed(widget.status);
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        (widget.back == true)? Navigator.of(context).pop():Navigator.pushReplacementNamed(context, "/home");
+        (widget.back == true)
+            ? Navigator.of(context).pop()
+            : Navigator.pushReplacementNamed(context, "/home");
       },
       child: d.Container(
-        color: Color(int.parse("0xff"+widget.status.color)),
+        color: Color(int.parse("0xff" + widget.status.color)),
         child: d.SafeArea(
           top: false,
           child: Material(
             color: Colors.transparent,
             child: Hero(
-              tag: "quote_hero_"+widget.status.id.toString(),
+              tag: "quote_hero_" + widget.status.id.toString(),
               child: d.Column(
                 children: [
                   d.Expanded(
                     child: Scaffold(
-                      backgroundColor: Color(int.parse("0xff"+widget.status.color)),
+                      backgroundColor:
+                          Color(int.parse("0xff" + widget.status.color)),
                       appBar: AppBar(
-                          centerTitle: false,
-                          elevation: 0,
+                        centerTitle: false,
+                        elevation: 0,
                         backgroundColor: Colors.transparent,
                         iconTheme: IconThemeData(color: Colors.white),
                         leading: new IconButton(
                           icon: new Icon(LineIcons.angle_left),
-                          onPressed: () => (widget.back == true)? Navigator.of(context).pop():Navigator.pushReplacementNamed(context, "/home"),
+                          onPressed: () => (widget.back == true)
+                              ? Navigator.of(context).pop()
+                              : Navigator.pushReplacementNamed(
+                                  context, "/home"),
                         ),
                         actions: <Widget>[
                           PopupMenuButton<String>(
-                            onSelected: (String index){
-                              switch(index){
+                            onSelected: (String index) {
+                              switch (index) {
                                 case "0":
                                   _copyAsText();
                                   break;
@@ -156,16 +164,26 @@ class _QuoteDetailState extends State<QuoteDetail> {
                                   break;
                               }
                             },
-                            color:  Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             itemBuilder: (BuildContext context) {
                               return {0, 1}.map((int choice) {
                                 return PopupMenuItem<String>(
                                   value: choice.toString(),
                                   child: Row(
                                     children: [
-                                      Icon(menuIcons[choice],color:   Theme.of(context).textTheme.bodyText2.color,size: 16),
+                                      Icon(menuIcons[choice],
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .color,
+                                          size: 16),
                                       SizedBox(width: 5),
-                                      Text(menuList[choice],style: TextStyle(color:  Theme.of(context).textTheme.bodyText2.color)),
+                                      Text(menuList[choice],
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  .color)),
                                     ],
                                   ),
                                 );
@@ -173,10 +191,8 @@ class _QuoteDetailState extends State<QuoteDetail> {
                             },
                           ),
                         ],
-
                       ),
-                      body:
-                      SafeArea(
+                      body: SafeArea(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -185,22 +201,23 @@ class _QuoteDetailState extends State<QuoteDetail> {
                                 key: _globalKey,
                                 child: d.Container(
                                   decoration: d.BoxDecoration(
-                                    color: Color(int.parse("0xff"+widget.status.color)),
-                                    borderRadius: d.BorderRadius.circular(10)
-                                  ),
+                                      color: Color(int.parse(
+                                          "0xff" + widget.status.color)),
+                                      borderRadius:
+                                          d.BorderRadius.circular(10)),
                                   child: ConstrainedBox(
                                     constraints: new BoxConstraints(
                                       minHeight: 120.0,
                                     ),
                                     child: Center(
                                       child: Text(
-                                        utf8.decode(base64Url.decode(widget.status.quote)),
+                                        utf8.decode(base64Url
+                                            .decode(widget.status.quote)),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 25,
                                             color: Colors.white,
-                                            decoration: TextDecoration.none
-                                        ),
+                                            decoration: TextDecoration.none),
                                       ),
                                     ),
                                   ),
@@ -210,43 +227,50 @@ class _QuoteDetailState extends State<QuoteDetail> {
                             Container(
                               margin: EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
-                                  border: Border(top: BorderSide(color: Colors.grey))
-                              ),
+                                  border: Border(
+                                      top: BorderSide(color: Colors.grey))),
                               height: 50,
-                              child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Expanded(
                                     child: Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        onTap: (){
-                                            setState(() {
-                                              if(widget.back == false)
-                                                statusLiked(widget.status);
-                                              else
-                                                widget.liked(widget.status);
-                                            });
+                                        onTap: () {
+                                          setState(() {
+                                            if (widget.back == false)
+                                              statusLiked(widget.status);
+                                            else
+                                              widget.liked(widget.status);
+                                          });
                                         },
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 17,horizontal: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 17,
+                                                      horizontal: 5),
                                               child: Icon(
-                                                (widget.status.liked == true)?Icons.thumb_up:Icons.thumb_up_outlined,
-                                                color:Colors.white70,
+                                                (widget.status.liked == true)
+                                                    ? Icons.thumb_up
+                                                    : Icons.thumb_up_outlined,
+                                                color: Colors.white70,
                                                 size: 16,
                                               ),
                                             ),
                                             Text(
-                                              widget.status.likes.toString()+ " Likes",
+                                              widget.status.likes.toString() +
+                                                  " Likes",
                                               style: TextStyle(
-                                                  color:Colors.white70,
+                                                  color: Colors.white70,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 12
-                                              ),
+                                                  fontSize: 12),
                                             )
                                           ],
                                         ),
@@ -257,28 +281,32 @@ class _QuoteDetailState extends State<QuoteDetail> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           _shareQuote();
                                         },
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 17,horizontal: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 17,
+                                                      horizontal: 5),
                                               child: Icon(
                                                 LineIcons.share,
-                                                color:Colors.white70,
+                                                color: Colors.white70,
                                                 size: 16,
                                               ),
                                             ),
                                             Text(
-                                              widget.status.shares.toString()+" Shares",
+                                              widget.status.shares.toString() +
+                                                  " Shares",
                                               style: TextStyle(
-                                                  color:Colors.white70,
+                                                  color: Colors.white70,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 12
-                                              ),
+                                                  fontSize: 12),
                                             )
                                           ],
                                         ),
@@ -289,29 +317,37 @@ class _QuoteDetailState extends State<QuoteDetail> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: InkWell(
-                                        onTap: (){
-                                          Route route = MaterialPageRoute(builder: (context) => CommentsList(status:widget.status));
+                                        onTap: () {
+                                          Route route = MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CommentsList(
+                                                      status: widget.status));
                                           Navigator.push(context, route);
                                         },
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 17,horizontal: 5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 17,
+                                                      horizontal: 5),
                                               child: Icon(
                                                 LineIcons.comments_o,
-                                                color:Colors.white70,
+                                                color: Colors.white70,
                                                 size: 16,
                                               ),
                                             ),
                                             Text(
-                                              widget.status.comments.toString()+" Comments",
+                                              widget.status.comments
+                                                      .toString() +
+                                                  " Comments",
                                               style: TextStyle(
-                                                  color:Colors.white70,
+                                                  color: Colors.white70,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 12
-                                              ),
+                                                  fontSize: 12),
                                             )
                                           ],
                                         ),
@@ -336,16 +372,18 @@ class _QuoteDetailState extends State<QuoteDetail> {
       ),
     );
   }
+
   _shareQuote() async {
-   //await Share.share(utf8.decode(base64Url.decode(widget.status.quote)));
+    //await Share.share(utf8.decode(base64Url.decode(widget.status.quote)));
     setState(() {
-      if(widget.back == false)
+      if (widget.back == false)
         addShare(widget.status);
       else
         widget.shared(widget.status);
     });
     _capturePng();
   }
+
   bool inside = false;
   Uint8List imageInMemory;
   GlobalKey _globalKey = new GlobalKey();
@@ -355,10 +393,10 @@ class _QuoteDetailState extends State<QuoteDetail> {
       print('inside');
       inside = true;
       RenderRepaintBoundary boundary =
-      _globalKey.currentContext.findRenderObject();
+          _globalKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       ByteData byteData =
-      await image.toByteData(format: ui.ImageByteFormat.png);
+          await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
       String bs64 = base64Encode(pngBytes);
       print(pngBytes);
@@ -368,7 +406,8 @@ class _QuoteDetailState extends State<QuoteDetail> {
       final appDir = await getTemporaryDirectory();
       File file = File('${appDir.path}/sth.jpg');
       await file.writeAsBytes(pngBytes);
-      await Share.shareFiles([file.path], text: utf8.decode(base64Url.decode(widget.status.quote)));
+      await Share.shareFiles([file.path],
+          text: utf8.decode(base64Url.decode(widget.status.quote)));
       setState(() {
         widget.shared(widget.status);
       });
@@ -376,60 +415,63 @@ class _QuoteDetailState extends State<QuoteDetail> {
       print(e);
     }
   }
+
   List<Status> likedStatusList = List();
 
   statusLiked(Status status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String  favoriteStatussString=  await prefs.getString('status_liked');
+    String favoriteStatussString = await prefs.getString('status_liked');
 
-    if(favoriteStatussString != null){
+    if (favoriteStatussString != null) {
       likedStatusList = Status.decode(favoriteStatussString);
     }
-    if(likedStatusList == null){
-      likedStatusList= new List();
+    if (likedStatusList == null) {
+      likedStatusList = new List();
     }
 
-    Status liked_status =  null;
+    Status liked_status = null;
 
-    for(Status current_status in likedStatusList){
-      if(current_status.id == status.id){
+    for (Status current_status in likedStatusList) {
+      if (current_status.id == status.id) {
         liked_status = current_status;
       }
     }
 
-    if(liked_status == null){
+    if (liked_status == null) {
       likedStatusList.add(status);
       setState(() {
         status.liked = true;
-        status.likes+=1;
-        _toggleLike(status,"add");
-
+        status.likes += 1;
+        _toggleLike(status, "add");
       });
-    }else{
+    } else {
       likedStatusList.remove(liked_status);
       setState(() {
         status.liked = false;
-        status.likes-=1;
-        _toggleLike(status,"delete");
+        status.likes -= 1;
+        _toggleLike(status, "delete");
       });
     }
     String encodedData = Status.encode(likedStatusList);
-    prefs.setString('status_liked',encodedData);
+    prefs.setString('status_liked', encodedData);
   }
-  Future<String>  _toggleLike(Status status,String state) async{
+
+  Future<String> _toggleLike(Status status, String state) async {
     int id_ = status.id + 55463938;
-    convert.Codec<String, String> stringToBase64 = convert.utf8.fuse(convert.base64);
+    convert.Codec<String, String> stringToBase64 =
+        convert.utf8.fuse(convert.base64);
     String id_base_64 = stringToBase64.encode(id_.toString());
 
     var statusCode = 200;
     var response;
     var jsonData;
     try {
-      response = await http.post(apiRest.toggleLike(state), body: {'id': id_base_64});
-      jsonData =  convert.jsonDecode(response.body);
+      response =
+          await http.post(apiRest.toggleLike(state), body: {'id': id_base_64});
+      jsonData = convert.jsonDecode(response.body);
     } catch (ex) {
       print(ex);
-      statusCode =  500;
+      statusCode = 500;
     }
   }
 
@@ -439,23 +481,23 @@ class _QuoteDetailState extends State<QuoteDetail> {
       prefs.setBool('shared_status_' + status.id.toString(), true);
 
       int id_ = status.id + 55463938;
-      convert.Codec<String, String> stringToBase64 = convert.utf8.fuse(convert.base64);
+      convert.Codec<String, String> stringToBase64 =
+          convert.utf8.fuse(convert.base64);
       String id_base_64 = stringToBase64.encode(id_.toString());
       setState(() {
-        status.shares = status.shares+1;
+        status.shares = status.shares + 1;
       });
       var statusCode = 200;
       var response;
       var jsonData;
       try {
-        response = await http.post(apiRest.addStatusShare(), body: {'id': id_base_64});
-        jsonData =  convert.jsonDecode(response.body);
-
+        response =
+            await http.post(apiRest.addStatusShare(), body: {'id': id_base_64});
+        jsonData = convert.jsonDecode(response.body);
       } catch (ex) {
         print(ex);
-        statusCode =  500;
+        statusCode = 500;
       }
-
     }
   }
 
@@ -465,59 +507,64 @@ class _QuoteDetailState extends State<QuoteDetail> {
       prefs.setBool('viewed_status_' + status.id.toString(), true);
 
       int id_ = status.id + 55463938;
-      convert.Codec<String, String> stringToBase64 = convert.utf8.fuse(convert.base64);
+      convert.Codec<String, String> stringToBase64 =
+          convert.utf8.fuse(convert.base64);
       String id_base_64 = stringToBase64.encode(id_.toString());
       setState(() {
-        status.views = status.views+1;
+        status.views = status.views + 1;
       });
       var statusCode = 200;
       var response;
       var jsonData;
       try {
-        response = await http.post(apiRest.addStatusView(), body: {'id': id_base_64});
-        jsonData =  convert.jsonDecode(response.body);
-
+        response =
+            await http.post(apiRest.addStatusView(), body: {'id': id_base_64});
+        jsonData = convert.jsonDecode(response.body);
       } catch (ex) {
         print(ex);
-        statusCode =  500;
+        statusCode = 500;
       }
-
     }
   }
 
-  void initLiked() async{
+  void initLiked() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String  likedStatusString=  await prefs.getString('status_liked');
+    String likedStatusString = await prefs.getString('status_liked');
 
-    if(likedStatusString != null){
+    if (likedStatusString != null) {
       likedStatusList = Status.decode(likedStatusString);
     }
-    if(likedStatusList == null){
-      likedStatusList= new List();
+    if (likedStatusList == null) {
+      likedStatusList = new List();
     }
 
-      for(Status liked_status in likedStatusList){
-        if(liked_status.id == widget.status.id){
-          setState(() {
-            widget.status.liked = true;
-          });
-        }
+    for (Status liked_status in likedStatusList) {
+      if (liked_status.id == widget.status.id) {
+        setState(() {
+          widget.status.liked = true;
+        });
       }
+    }
   }
+
   void _reportQuote() {
-    Route route = MaterialPageRoute(builder: (context) => Report(message:"Report quote :"+widget.status.description,image: Icon(Icons.format_quote,size: 100),title: "Report "+widget.status.description,status: widget.status.id));
+    Route route = MaterialPageRoute(
+        builder: (context) => Report(
+            message: "Report quote :" + widget.status.description,
+            image: Icon(Icons.format_quote, size: 100),
+            title: "Report " + widget.status.description,
+            status: widget.status.id));
     Navigator.push(context, route);
   }
+
   void _copyAsText() {
-    Clipboard.setData(new ClipboardData(text:widget.status.description));
+    Clipboard.setData(new ClipboardData(text: widget.status.description));
     Fluttertoast.showToast(
-      msg:"Your quote has been copied successfully!",
+      msg: "Your quote has been copied successfully!",
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.green,
       textColor: Colors.white,
     );
   }
-
 }
-

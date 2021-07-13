@@ -5,11 +5,9 @@ import 'package:myteam/model/social.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SocialWidget extends StatelessWidget {
-  Social  social ;
-
+  Social social;
 
   _launchURL(String url) async {
-
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -21,13 +19,13 @@ class SocialWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         _launchURL(social.value);
       },
       child: Container(
         height: 45,
         child: Padding(
-          padding: const EdgeInsets.only(left:10),
+          padding: const EdgeInsets.only(left: 10),
           child: Row(
             children: <Widget>[
               Container(
@@ -36,22 +34,23 @@ class SocialWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image(
-                      image: NetworkImage(social.icon),
-                      color: Colors.white
-                  ),
+                      image: NetworkImage(social.icon), color: Colors.white),
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                  color: Color(social.getColor()),
-                    boxShadow: [BoxShadow(
-                        color: Colors.black45,
-                        offset: Offset(0,0),
-                        blurRadius: 1
-                    )]
-                ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
+                    color: Color(social.getColor()),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black45,
+                          offset: Offset(0, 0),
+                          blurRadius: 1)
+                    ]),
               ),
               Container(
-                padding: EdgeInsets.only(right: 10,top: 5,bottom: 5,left: 10),
+                padding:
+                    EdgeInsets.only(right: 10, top: 5, bottom: 5, left: 10),
                 height: 45,
                 child: Center(
                   child: Column(
@@ -63,29 +62,29 @@ class SocialWidget extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 10
-                        ),
+                            fontSize: 10),
                       ),
                       Text(
                         social.username,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 8
-                        ),
+                            fontSize: 8),
                       ),
                     ],
                   ),
                 ),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
                     color: Color(social.getColor()),
-                    boxShadow: [BoxShadow(
-                        color: Colors.black54.withOpacity(0.2),
-                        offset: Offset(0,0),
-                        blurRadius: 5
-                    )]
-                ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54.withOpacity(0.2),
+                          offset: Offset(0, 0),
+                          blurRadius: 5)
+                    ]),
               ),
             ],
           ),

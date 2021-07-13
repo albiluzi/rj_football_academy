@@ -8,15 +8,18 @@ class Competition {
   final List<Table> tables;
   bool selected = false;
 
+  Competition(
+      {this.id,
+      this.name,
+      this.image,
+      this.tables,
+      this.season,
+      this.selected = false});
 
-  Competition( {this.id, this.name, this.image,this.tables, this.season,this.selected = false});
-
-  factory Competition.fromJson(Map<String, dynamic> parsedJson){
-
-
-    List<Table> tablesList = List() ;
+  factory Competition.fromJson(Map<String, dynamic> parsedJson) {
+    List<Table> tablesList = List();
     var data = parsedJson['tables'];
-    if(data != null) {
+    if (data != null) {
       for (Map i in data) {
         tablesList.add(Table.fromJson(i));
       }
@@ -24,10 +27,9 @@ class Competition {
 
     return Competition(
         id: parsedJson['id'],
-        name : parsedJson['name'],
-        image : parsedJson['image'],
-        tables : tablesList,
-        season : parsedJson ['season']
-    );
+        name: parsedJson['name'],
+        image: parsedJson['image'],
+        tables: tablesList,
+        season: parsedJson['season']);
   }
 }

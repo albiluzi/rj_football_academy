@@ -1,26 +1,23 @@
-
 import 'package:myteam/model/player.dart';
 
 class Position {
   final int id;
   final String title;
-  final List<Player> players ;
+  final List<Player> players;
 
+  Position({this.id, this.title, this.players});
 
-  Position( {this.id, this.title,this.players});
+  factory Position.fromJson(Map<String, dynamic> parsedJson) {
+    List<Player> _players = List();
 
-  factory Position.fromJson(Map<String, dynamic> parsedJson){
-
-    List<Player> _players =  List();
-
-    for(Map i in parsedJson ['players']){
+    for (Map i in parsedJson['players']) {
       Player player = Player.fromJson(i);
       _players.add(player);
     }
     return Position(
       id: parsedJson['id'],
-      title : parsedJson['title'],
-      players : _players,
+      title: parsedJson['title'],
+      players: _players,
     );
   }
 }

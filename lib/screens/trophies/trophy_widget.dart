@@ -6,19 +6,19 @@ import 'package:myteam/model/trophy.dart';
 import 'package:myteam/screens/trophies/trophy_detail.dart';
 
 class TrophyWidget extends StatelessWidget {
-
   Trophy trophy;
 
   TrophyWidget({this.trophy});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Route route = MaterialPageRoute(builder: (context) => TrophyDetail(trophy:trophy));
+      onTap: () {
+        Route route = MaterialPageRoute(
+            builder: (context) => TrophyDetail(trophy: trophy));
         Navigator.push(context, route);
       },
       child: Container(
-        margin: EdgeInsets.only(top: 10,right: 10,left: 10),
+        margin: EdgeInsets.only(top: 10, right: 10, left: 10),
         height: 170,
         width: (MediaQuery.of(context).size.width - 20),
         child: Stack(
@@ -28,15 +28,14 @@ class TrophyWidget extends StatelessWidget {
               left: 150,
               height: 40,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 child: Center(
                   child: Text(
                     trophy.title,
                     style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1.color,
                         fontWeight: FontWeight.w800,
-                        fontSize: 15
-                    ),
+                        fontSize: 15),
                   ),
                 ),
               ),
@@ -48,7 +47,12 @@ class TrophyWidget extends StatelessWidget {
               child: Container(
                 child: Stack(
                   children: [
-                    ClipRRect(borderRadius: BorderRadius.circular(7),child: CachedNetworkImage(imageUrl: trophy.image,fit: BoxFit.cover,width: MediaQuery.of(context).size.width - 20)),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(7),
+                        child: CachedNetworkImage(
+                            imageUrl: trophy.image,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width - 20)),
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -58,7 +62,7 @@ class TrophyWidget extends StatelessWidget {
                         padding: EdgeInsets.only(left: 150),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color:Colors.black.withOpacity(0.45),
+                          color: Colors.black.withOpacity(0.45),
                         ),
                         child: Center(
                           child: Text(
@@ -78,7 +82,9 @@ class TrophyWidget extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Theme.of(context).textTheme.bodyText2.color,width: 3),
+                  border: Border.all(
+                      color: Theme.of(context).textTheme.bodyText2.color,
+                      width: 3),
                 ),
               ),
             ),
@@ -96,33 +102,29 @@ class TrophyWidget extends StatelessWidget {
                         width: 110,
                         child: Center(
                             child: Text(
-                              trophy.number,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 26
-                              ),
-                            )
-                        )
-                    ),
+                          trophy.number,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26),
+                        ))),
                     Positioned(
                       top: 40,
                       width: 110,
                       height: 100,
                       child: Center(
-                        child:  CachedNetworkImage(
-                           imageUrl:  trophy.icon,
+                        child: CachedNetworkImage(
+                            imageUrl: trophy.icon,
                             height: 100,
                             width: 110,
-                            color: Colors.white
-                        ),
+                            color: Colors.white),
                       ),
                     )
                   ],
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
-                  color:Theme.of(context).accentColor,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
             ),
@@ -131,5 +133,4 @@ class TrophyWidget extends StatelessWidget {
       ),
     );
   }
-
 }

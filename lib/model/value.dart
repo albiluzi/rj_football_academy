@@ -1,4 +1,3 @@
-
 import 'package:myteam/model/player.dart';
 
 class Value {
@@ -6,14 +5,12 @@ class Value {
   final String name;
   final String value;
 
-  Value( {this.id, this.name,this.value});
+  Value({this.id, this.name, this.value});
 
-  factory Value.fromJson(Map<String, dynamic> parsedJson){
-
+  factory Value.fromJson(Map<String, dynamic> parsedJson) {
     return Value(
         id: parsedJson['id'],
-        name : parsedJson['name'],
-        value : parsedJson['value']
-    );
+        name: parsedJson['name'],
+        value: parsedJson['value']);
   }
 }

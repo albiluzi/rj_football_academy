@@ -23,9 +23,11 @@ class _ImageViewerState extends State<ImageViewer> {
             leading: new IconButton(
               icon: new Icon(LineIcons.angle_left),
               onPressed: () => Navigator.of(context).pop(),
-            )
-        ),
-        body: Container(child: PhotoView(imageProvider: CachedNetworkImageProvider(widget.url.replaceAll("/uploads/cache/media_thumb/", "/").replaceAll("/media/cache/resolve/media_thumb/", "/"))))
-    );
+            )),
+        body: Container(
+            child: PhotoView(
+                imageProvider: CachedNetworkImageProvider(widget.url
+                    .replaceAll("/uploads/cache/media_thumb/", "/")
+                    .replaceAll("/media/cache/resolve/media_thumb/", "/")))));
   }
 }

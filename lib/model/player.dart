@@ -1,4 +1,3 @@
-
 import 'package:myteam/model/value.dart';
 
 class Player {
@@ -19,44 +18,53 @@ class Player {
   final String country;
   final String country_image;
 
-  final List<Value> socials ;
+  final List<Value> socials;
   final List<Value> statistics;
 
+  Player(
+      {this.id,
+      this.fname,
+      this.lname,
+      this.image,
+      this.number,
+      this.position,
+      this.age,
+      this.height,
+      this.weight,
+      this.country,
+      this.country_image,
+      this.socials,
+      this.statistics});
 
+  factory Player.fromJson(Map<String, dynamic> parsedJson) {
+    List<Value> _socials = List();
+    List<Value> _statistics = List();
+    if (parsedJson['socials'] != null)
+      for (Map i in parsedJson['socials']) {
+        Value value = Value.fromJson(i);
 
+        _socials.add(value);
+      }
 
-  Player( {this.id, this.fname,this.lname, this.image,this.number,this.position, this.age, this.height, this.weight, this.country, this.country_image, this.socials, this.statistics});
-
-  factory Player.fromJson(Map<String, dynamic> parsedJson){
-     List<Value> _socials = List();
-     List<Value> _statistics =  List();
-    if(parsedJson['socials'] !=null)
-    for(Map i in parsedJson['socials']){
-      Value value = Value.fromJson(i);
-
-      _socials.add(value);
-    }
-
-    if(parsedJson['statistics'] !=null)
-    for(Map i in parsedJson ['statistics']){
-      Value value = Value.fromJson(i);
-     _statistics.add(value);
-   }
+    if (parsedJson['statistics'] != null)
+      for (Map i in parsedJson['statistics']) {
+        Value value = Value.fromJson(i);
+        _statistics.add(value);
+      }
 
     return Player(
         id: parsedJson['id'],
-        fname : parsedJson['fname'],
-        lname : parsedJson['lname'],
-        image : parsedJson ['image'],
-        number : parsedJson ['number'],
-        position : parsedJson ['position'],
-        age : parsedJson ['age'],
-        height : parsedJson ['height'],
-        weight : parsedJson ['weight'],
-        country : parsedJson ['country'],
-        country_image : parsedJson ['country_image'],
-        socials : _socials,
-        statistics : _statistics
-    );
+        fname: parsedJson['fname'],
+        lname: parsedJson['lname'],
+        image: parsedJson['image'],
+        number: parsedJson['number'],
+        position: parsedJson['position'],
+        age: parsedJson['age'],
+        height: parsedJson['height'],
+        weight: parsedJson['weight'],
+        country: parsedJson['country'],
+        country_image: parsedJson['country_image'],
+        socials: _socials,
+        statistics: _statistics);
   }
 }

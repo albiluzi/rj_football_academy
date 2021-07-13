@@ -15,13 +15,22 @@ class Line {
   final String row7;
   final String row8;
 
+  Line(
+      {this.id,
+      this.prefix,
+      this.label,
+      this.image,
+      this.row1,
+      this.row2,
+      this.row3,
+      this.row4,
+      this.row5,
+      this.row6,
+      this.row7,
+      this.row8,
+      this.color});
 
-  Line({this.id, this.prefix, this.label, this.image, this.row1, this.row2,
-      this.row3, this.row4, this.row5, this.row6, this.row7, this.row8,this.color});
-
-  factory Line.fromJson(Map<String, dynamic> parsedJson){
-
-
+  factory Line.fromJson(Map<String, dynamic> parsedJson) {
     return Line(
       id: parsedJson['id'],
       prefix: parsedJson['prefix'],
@@ -36,11 +45,6 @@ class Line {
       row6: parsedJson['row6'],
       row7: parsedJson['row7'],
       row8: parsedJson['row8'],
-
     );
   }
-
-
-
-
 }

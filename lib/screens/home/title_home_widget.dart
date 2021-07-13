@@ -10,13 +10,12 @@ class TitleHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(15),
-      child:Text(
+      child: Text(
         this.title,
         style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1.color,
             fontWeight: FontWeight.w700,
-            fontSize: 24
-        ),
+            fontSize: 24),
       ),
     );
   }

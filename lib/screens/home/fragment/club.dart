@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:facebook_audience_network/facebook_audience_network.dart';
@@ -24,6 +23,7 @@ import 'dart:convert' as convert;
 
 import 'package:myteam/screens/tryagain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class Club extends StatefulWidget {
   @override
   _ClubState createState() => _ClubState();
@@ -33,17 +33,16 @@ class _ClubState extends State<Club> {
   List<Team> teamList = List();
   List<Social> socialList = List();
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  bool loading =  false;
-  bool refreshing =  true;
-  String state =  "progress";
-
+  bool loading = false;
+  bool refreshing = true;
+  String state = "progress";
 
   InterstitialAd _admobInterstitialAd;
   static final AdRequest request = AdRequest();
   Route team_route = null;
   AdsProvider adsProvider;
 
-  int should_be_displaed= 1;
+  int should_be_displaed = 1;
   int ads_interstitial_click;
   String ads_interstitial_type;
 
@@ -53,23 +52,21 @@ class _ClubState extends State<Club> {
   String interstitial_facebook_id;
   String interstitial_admob_id;
 
-
   void _loadInterstitialAd() {
     FacebookInterstitialAd.destroyInterstitialAd();
     FacebookInterstitialAd.loadInterstitialAd(
-      placementId:interstitial_facebook_id,
+      placementId: interstitial_facebook_id,
       listener: (result, value) {
         print(">> FAN > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED){
+        if (result == InterstitialAdResult.LOADED) {
           _isInterstitialAdLoaded = true;
         }
-        if(result == InterstitialAdResult.ERROR){
-        }
+        if (result == InterstitialAdResult.ERROR) {}
+
         /// Once an Interstitial Ad has been dismissed and becomes invalidated,
         /// load a fresh Ad by calling this function.
-        if (result == InterstitialAdResult.DISMISSED ) {
-          if(team_route != null)
-            Navigator.push(context, team_route);
+        if (result == InterstitialAdResult.DISMISSED) {
+          if (team_route != null) Navigator.push(context, team_route);
           _isInterstitialAdLoaded = false;
           _loadInterstitialAd();
         }
@@ -77,38 +74,38 @@ class _ClubState extends State<Club> {
     );
   }
 
-  void initInterstitialAd() async{
+  void initInterstitialAd() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    adsProvider =  AdsProvider(prefs,(Platform.isAndroid)?TargetPlatform.android:TargetPlatform.iOS);
-    should_be_displaed =adsProvider.getInterstitialClicksStep();
+    adsProvider = AdsProvider(prefs,
+        (Platform.isAndroid) ? TargetPlatform.android : TargetPlatform.iOS);
+    should_be_displaed = adsProvider.getInterstitialClicksStep();
 
-    interstitial_admob_id =adsProvider.getAdmobInterstitialId();
-    interstitial_facebook_id =adsProvider.getFacebookInterstitialId();
-    ads_interstitial_type =adsProvider.getInterstitialType();
+    interstitial_admob_id = adsProvider.getAdmobInterstitialId();
+    interstitial_facebook_id = adsProvider.getFacebookInterstitialId();
+    ads_interstitial_type = adsProvider.getInterstitialType();
     ads_interstitial_click = adsProvider.getInterstitialClicks();
 
-    if(ads_interstitial_type == "ADMOB"){
+    if (ads_interstitial_type == "ADMOB") {
       MobileAds.instance.initialize().then((InitializationStatus status) {
         print('Initialization done: ${status.adapterStatuses}');
         MobileAds.instance
             .updateRequestConfiguration(RequestConfiguration(
-            tagForChildDirectedTreatment:
-            TagForChildDirectedTreatment.unspecified))
+                tagForChildDirectedTreatment:
+                    TagForChildDirectedTreatment.unspecified))
             .then((value) {
           createInterstitialAd();
         });
       });
-    }else if(ads_interstitial_type == "FACEBOOK"){
+    } else if (ads_interstitial_type == "FACEBOOK") {
       FacebookAudienceNetwork.init();
       _loadInterstitialAd();
-    }else if(ads_interstitial_type == "BOTH"){
-
+    } else if (ads_interstitial_type == "BOTH") {
       MobileAds.instance.initialize().then((InitializationStatus status) {
         print('Initialization done: ${status.adapterStatuses}');
         MobileAds.instance
             .updateRequestConfiguration(RequestConfiguration(
-            tagForChildDirectedTreatment:
-            TagForChildDirectedTreatment.unspecified))
+                tagForChildDirectedTreatment:
+                    TagForChildDirectedTreatment.unspecified))
             .then((value) {
           createInterstitialAd();
         });
@@ -116,17 +113,17 @@ class _ClubState extends State<Club> {
 
       FacebookAudienceNetwork.init();
       _loadInterstitialAd();
-
     }
   }
+
   @override
   void dispose() {
     _admobInterstitialAd?.dispose();
     super.dispose();
   }
+
   void createInterstitialAd() {
-    if(_admobInterstitialAd != null)
-      return;
+    if (_admobInterstitialAd != null) return;
     _admobInterstitialAd ??= InterstitialAd(
       adUnitId: interstitial_admob_id,
       request: request,
@@ -141,7 +138,6 @@ class _ClubState extends State<Club> {
           _admobInterstitialAd = null;
           _interstitialReady = false;
           createInterstitialAd();
-
         },
         onAdOpened: (Ad ad) => print('${ad.runtimeType} onAdOpened.'),
         onAdClosed: (Ad ad) {
@@ -151,8 +147,7 @@ class _ClubState extends State<Club> {
           _admobInterstitialAd = null;
           _interstitialReady = false;
           createInterstitialAd();
-          if(team_route != null)
-            Navigator.push(context, team_route);
+          if (team_route != null) Navigator.push(context, team_route);
         },
         onApplicationExit: (Ad ad) =>
             print('${ad.runtimeType} onApplicationExit.'),
@@ -160,31 +155,27 @@ class _ClubState extends State<Club> {
     )..load();
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    refreshing =  false;
+    refreshing = false;
     _getList();
-    initInterstitialAd();
-
+    // initInterstitialAd();
   }
-  
-  Future<List<Team>>  _getList() async{
-    if(loading)
-      return null;
+
+  Future<List<Team>> _getList() async {
+    if (loading) return null;
     teamList.clear();
     socialList.clear();
-    loading =  true;
+    loading = true;
 
-    if(refreshing == false) {
+    if (refreshing == false) {
       setState(() {
         state = "progress";
       });
-      refreshing =  true;
-
+      refreshing = true;
     }
     // Await the http get response, then decode the json-formatted response.
     var response;
@@ -193,39 +184,37 @@ class _ClubState extends State<Club> {
     } catch (ex) {
       loading = false;
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
-    if(!loading)
-      return null;
+    if (!loading) return null;
 
     if (response.statusCode == 200) {
-      var data  = await http.get(apiRest.getClubItems());
-      var jsonData =  convert.jsonDecode(data.body);
+      var data = await http.get(apiRest.getClubItems());
+      var jsonData = convert.jsonDecode(data.body);
       var itemsjsonData = jsonData["items"];
       var socialsjsonData = jsonData["socials"];
 
-      for(Map i in socialsjsonData){
+      for (Map i in socialsjsonData) {
         Social social = Social.fromJson(i);
         socialList.add(social);
       }
       teamList.add(Team());
 
-      if(socialList.length>0){
+      if (socialList.length > 0) {
         teamList.add(Team(id: -1));
       }
-      for(Map i in itemsjsonData){
+      for (Map i in itemsjsonData) {
         Team team = Team.fromJson(i);
         teamList.add(team);
       }
 
-
       setState(() {
-        state =  "success";
+        state = "success";
       });
     } else {
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
     loading = false;
@@ -233,101 +222,111 @@ class _ClubState extends State<Club> {
   }
 
   Widget buildHome() {
-    switch(state){
+    switch (state) {
       case "success":
         return RefreshIndicator(
           backgroundColor: Theme.of(context).primaryColor,
           key: refreshKey,
-          onRefresh:_getList,
+          onRefresh: _getList,
           child: ListView.builder(
             itemCount: teamList.length,
             itemBuilder: (context, index) {
-              if(teamList[index].id == null){
+              if (teamList[index].id == null) {
                 return TitleHomeWidget(title: "The club");
-              }else if(teamList[index].id == -1){
-                return  Container(
+              } else if (teamList[index].id == -1) {
+                return Container(
                   height: 55,
                   child: ListView.builder(
-                    itemCount: socialList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index){
-                      return  SocialWidget(social: socialList[index]);
-                    }
-                  ),
+                      itemCount: socialList.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SocialWidget(social: socialList[index]);
+                      }),
                 );
-              }else{
-                return ClubItemWidget(team: teamList[index],navigate: navigate);
+              } else {
+                return ClubItemWidget(
+                    team: teamList[index], navigate: navigate);
               }
-          },),
+            },
+          ),
         );
         break;
       case "progress":
         return LoadingWidget();
         break;
       case "error":
-        return TryAgainButton(action:(){
+        return TryAgainButton(action: () {
           refreshing = false;
           _getList();
         });
         break;
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return
-      buildHome();
+    return buildHome();
   }
 
-  navigate(Team team){
-    switch(team.type){
+  navigate(Team team) {
+    switch (team.type) {
       case "players":
-        team_route = MaterialPageRoute(builder: (context) => PlayersList(team : team));
+        team_route =
+            MaterialPageRoute(builder: (context) => PlayersList(team: team));
         break;
       case "articles":
-        team_route = MaterialPageRoute(builder: (context) => ArticlesList(team : team));
+        team_route =
+            MaterialPageRoute(builder: (context) => ArticlesList(team: team));
         break;
       case "staffs":
-        team_route = MaterialPageRoute(builder: (context) => StaffsList(team : team));
+        team_route =
+            MaterialPageRoute(builder: (context) => StaffsList(team: team));
         break;
       case "trophies":
-        team_route = MaterialPageRoute(builder: (context) => TrophiesList(team : team));
+        team_route =
+            MaterialPageRoute(builder: (context) => TrophiesList(team: team));
         break;
     }
-    if( ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
-      if(adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady ){
+    if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
+      if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
         adsProvider.setInterstitialLocal("FACEBOOK");
         _admobInterstitialAd.show();
         should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed) ;
-      }else if(adsProvider.getInterstitialLocal() == "FACEBOOK" && _isInterstitialAdLoaded){
+        adsProvider.setInterstitialClicksStep(should_be_displaed);
+      } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
+          _isInterstitialAdLoaded) {
         adsProvider.setInterstitialLocal("ADMOB");
         FacebookInterstitialAd.showInterstitialAd();
         should_be_displaed = 1;
         adsProvider.setInterstitialClicksStep(should_be_displaed);
-      }else{
-        if( adsProvider.getInterstitialLocal() == "ADMOB"){
+      } else {
+        if (adsProvider.getInterstitialLocal() == "ADMOB") {
           adsProvider.setInterstitialLocal("FACEBOOK");
-        }else{
+        } else {
           adsProvider.setInterstitialLocal("ADMOB");
         }
         should_be_displaed = 1;
         adsProvider.setInterstitialClicksStep(should_be_displaed);
         Navigator.push(context, team_route);
       }
-    }else if(_isInterstitialAdLoaded && ads_interstitial_type == "FACEBOOK" && should_be_displaed == 0){
+    } else if (_isInterstitialAdLoaded &&
+        ads_interstitial_type == "FACEBOOK" &&
+        should_be_displaed == 0) {
       FacebookInterstitialAd.showInterstitialAd();
       should_be_displaed = 1;
       adsProvider.setInterstitialClicksStep(should_be_displaed);
-    }else if(_interstitialReady && ads_interstitial_type == "ADMOB" && should_be_displaed == 0){
+    } else if (_interstitialReady &&
+        ads_interstitial_type == "ADMOB" &&
+        should_be_displaed == 0) {
       _admobInterstitialAd.show();
       should_be_displaed = 1;
       adsProvider.setInterstitialClicksStep(should_be_displaed);
-    }else{
-      should_be_displaed = (should_be_displaed >= ads_interstitial_click)? 0:should_be_displaed+1;
+    } else {
+      should_be_displaed = (should_be_displaed >= ads_interstitial_click)
+          ? 0
+          : should_be_displaed + 1;
       adsProvider.setInterstitialClicksStep(should_be_displaed);
       Navigator.push(context, team_route);
     }
-
   }
 }

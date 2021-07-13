@@ -8,7 +8,8 @@ Widget EmptyWidget(var context) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(LineIcons.list,color: Theme.of(context).textTheme.subtitle1.color,size: 100)
+        Icon(LineIcons.list,
+            color: Theme.of(context).textTheme.subtitle1.color, size: 100)
       ],
     ),
   );

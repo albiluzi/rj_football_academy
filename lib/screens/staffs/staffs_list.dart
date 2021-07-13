@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class StaffsList extends StatefulWidget {
-
   Team team;
 
   StaffsList({this.team});
@@ -26,89 +24,78 @@ class StaffsList extends StatefulWidget {
 class _StaffsListState extends State<StaffsList> {
   List<Staff> staffsList = List();
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  bool loading =  false;
-  String state =  "progress";
-  bool buttonLoading =  false;
-  bool refreshing =  true;
+  bool loading = false;
+  String state = "progress";
+  bool buttonLoading = false;
+  bool refreshing = true;
 
   @override
   void initState() {
     // TODO: implement initState
     _getList();
     super.initState();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
           centerTitle: false,
           backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
           leading: new IconButton(
             icon: new Icon(LineIcons.angle_left),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text(widget.team.title,style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color)),
-          elevation: 0.0
-      ),
+          title: Text(widget.team.title,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1.color)),
+          elevation: 0.0),
       body: SafeArea(
         child: Stack(
           children: [
             Positioned(
-                left: 5,
-                right: 5,
-                bottom: 0,
-                top: 0,
-                child:  buildHome()
-            ),
+                left: 5, right: 5, bottom: 0, top: 0, child: buildHome()),
             Positioned(
                 left: 0,
                 right: 0,
                 bottom: 0,
                 child: Visibility(
-                    visible: buttonLoading ,
-                    child:
-                    Center(
-                      child:
-                      Container(
+                    visible: buttonLoading,
+                    child: Center(
+                      child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            color:Theme.of(context).primaryColor,
-                            boxShadow: [BoxShadow(
-                                color: Theme.of(context).primaryColor,
-                                offset: Offset(0,0),
-                                blurRadius: 10
-                            )]
-                        ),
+                            color: Theme.of(context).primaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Theme.of(context).primaryColor,
+                                  offset: Offset(0, 0),
+                                  blurRadius: 10)
+                            ]),
                         height: 40,
                         width: 40,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
                         ),
                       ),
-                    )
-                )
-            )
+                    )))
           ],
         ),
       ),
     );
   }
 
-  Future<List<Staff>>  _getList() async{
-    if(loading)
-      return null;
+  Future<List<Staff>> _getList() async {
+    if (loading) return null;
     staffsList.clear();
-    loading =  true;
+    loading = true;
 
-    if(refreshing == false){
+    if (refreshing == false) {
       setState(() {
-        state =  "progress";
+        state = "progress";
       });
       refreshing = true;
     }
@@ -119,64 +106,58 @@ class _StaffsListState extends State<StaffsList> {
     } catch (ex) {
       loading = false;
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
-    if(!loading)
-      return null;
+    if (!loading) return null;
 
     if (response.statusCode == 200) {
-      var data  = await http.get(apiRest.getStaffsByTeam(widget.team.id));
-      var jsonData =  convert.jsonDecode(data.body);
-      for(Map i in jsonData){
+      var data = await http.get(apiRest.getStaffsByTeam(widget.team.id));
+      var jsonData = convert.jsonDecode(data.body);
+      for (Map i in jsonData) {
         Staff position = Staff.fromJson(i);
         staffsList.add(position);
       }
       setState(() {
-        state =  "success";
+        state = "success";
       });
     } else {
       setState(() {
-        state =  "error";
+        state = "error";
       });
     }
     loading = false;
     return staffsList;
   }
 
-
-
-
   Widget buildHome() {
-    switch(state){
+    switch (state) {
       case "success":
         return RefreshIndicator(
           backgroundColor: Theme.of(context).primaryColor,
           key: refreshKey,
-          onRefresh:_getList,
+          onRefresh: _getList,
           child: GridView.count(
             crossAxisCount: 2,
             childAspectRatio: 0.8,
-            children: List.generate(staffsList.length, (index) => StaffWidget(staff: staffsList[index])),
+            children: List.generate(staffsList.length,
+                (index) => StaffWidget(staff: staffsList[index])),
           ),
         );
         break;
       case "progress":
         return LoadingWidget();
-      break;
+        break;
       case "error":
         return Center(
           child: FlatButton(
-            onPressed: (){
+            onPressed: () {
               print("try again");
             },
             child: Text("TryAgain"),
-          ) ,
+          ),
         );
         break;
     }
   }
 }
-
-
-

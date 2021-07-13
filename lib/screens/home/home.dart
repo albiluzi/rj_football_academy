@@ -61,7 +61,7 @@ class _HomeState extends ResumableState<Home> {
 
     super.initState();
     getLogged();
-    showGDPR();
+    // showGDPR();
   }
 
   @override

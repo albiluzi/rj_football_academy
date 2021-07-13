@@ -10,22 +10,21 @@ class Table {
   final List<Line> lines;
   final Header header;
 
-  Table({this.id, this.title, this.columns,this.lines,this.header});
+  Table({this.id, this.title, this.columns, this.lines, this.header});
 
-  factory Table.fromJson(Map<String, dynamic> parsedJson){
-
-    List<Line> linesList = List() ;
+  factory Table.fromJson(Map<String, dynamic> parsedJson) {
+    List<Line> linesList = List();
     var data = parsedJson['lines'];
-    for(Map i in data){
+    for (Map i in data) {
       linesList.add(Line.fromJson(i));
     }
     Header _header = Header.fromJson(parsedJson['header']);
     return Table(
-        id: parsedJson['id'],
-        title : parsedJson['title'],
-        columns : parsedJson ['columns'],
-        lines : linesList,
-        header : _header,
+      id: parsedJson['id'],
+      title: parsedJson['title'],
+      columns: parsedJson['columns'],
+      lines: linesList,
+      header: _header,
     );
   }
 }

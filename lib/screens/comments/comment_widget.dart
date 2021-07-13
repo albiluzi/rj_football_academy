@@ -6,14 +6,14 @@ import 'package:myteam/config/colors.dart';
 import 'package:myteam/model/comment.dart';
 
 class CommentWidget extends StatelessWidget {
-  Comment comment ;
+  Comment comment;
 
   CommentWidget({this.comment});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -29,21 +29,20 @@ class CommentWidget extends StatelessWidget {
                     width: 30,
                   ),
                 ),
-              )
-          ),
+              )),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Theme.of(context).cardColor,
-                  boxShadow: [BoxShadow(
-                      color: Theme.of(context).cardColor,
-                      offset: Offset(0,0),
-                      blurRadius: 1
-                  )]
-              ),
-              child:Column(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Theme.of(context).cardColor,
+                        offset: Offset(0, 0),
+                        blurRadius: 1)
+                  ]),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -57,7 +56,11 @@ class CommentWidget extends StatelessWidget {
                           width: double.infinity,
                           child: Text(
                             comment.username,
-                            style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 15,fontWeight: FontWeight.w700),
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700),
                           ),
                         ),
                       ),
@@ -69,10 +72,13 @@ class CommentWidget extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(right: 5,left: 5),
+                        padding: EdgeInsets.only(right: 5, left: 5),
                         child: Text(
                           comment.created,
-                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontSize: 11),
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText2.color,
+                              fontSize: 11),
                         ),
                       ),
                       // Button send message
@@ -81,10 +87,17 @@ class CommentWidget extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.only(top: 10),
                     child: Text(
-                      (comment.enabled == true)? comment.clear : "Comment has been hidden !",
-                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color.withOpacity((comment.enabled == true)? 1:0.2), fontSize: 12),
+                      (comment.enabled == true)
+                          ? comment.clear
+                          : "Comment has been hidden !",
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .color
+                              .withOpacity((comment.enabled == true) ? 1 : 0.2),
+                          fontSize: 12),
                     ),
-
                   )
                 ],
               ),
@@ -93,7 +106,6 @@ class CommentWidget extends StatelessWidget {
         ],
       ),
       margin: const EdgeInsets.all(7),
-
     );
   }
 }

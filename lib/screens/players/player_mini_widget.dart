@@ -8,13 +8,14 @@ class PlayerMiniWidget extends StatelessWidget {
   Player player;
   String bgimage;
 
-  PlayerMiniWidget({this.player,@required this.bgimage});
+  PlayerMiniWidget({this.player, @required this.bgimage});
 
   @override
   Widget build(BuildContext context) {
-    return   GestureDetector(
-      onTap: (){
-        Route route = MaterialPageRoute(builder: (context) => PlayerDetail(player: player));
+    return GestureDetector(
+      onTap: () {
+        Route route = MaterialPageRoute(
+            builder: (context) => PlayerDetail(player: player));
         Navigator.push(context, route);
       },
       child: Container(
@@ -23,42 +24,45 @@ class PlayerMiniWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Theme.of(context).accentColor,
-            boxShadow: [BoxShadow(
-                color: Theme.of(context).accentColor.withOpacity(0.7),
-                offset: Offset(0,0),
-                blurRadius: 5
-            )]
-        ),
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).accentColor.withOpacity(0.7),
+                  offset: Offset(0, 0),
+                  blurRadius: 5)
+            ]),
         child: Padding(
           padding: const EdgeInsets.all(0),
           child: Stack(
             children: [
               Positioned(
-                  child: Opacity(child: CachedNetworkImage(
-                    height: 400,
-                    imageUrl:bgimage,
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    fit: BoxFit.fitHeight,
-                  ),opacity: 0.1),
+                  child: Opacity(
+                      child: CachedNetworkImage(
+                        height: 400,
+                        imageUrl: bgimage,
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fit: BoxFit.fitHeight,
+                      ),
+                      opacity: 0.1),
                   top: 10,
                   right: 10,
                   bottom: 10,
-                  left: 10
-              ),
-
+                  left: 10),
               Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
                 child: Hero(
-                  tag: "player_"+player.id.toString(),
+                  tag: "player_" + player.id.toString(),
                   child: Container(
-
-                    child: Center(child: CachedNetworkImage(imageUrl:player.image,height:   140,width: 110, fit: BoxFit.fitHeight)),
+                    child: Center(
+                        child: CachedNetworkImage(
+                            imageUrl: player.image,
+                            height: 140,
+                            width: 110,
+                            fit: BoxFit.fitHeight)),
                   ),
                 ),
               ),
-
               Positioned(
                 bottom: 30,
                 left: 0,
@@ -67,30 +71,29 @@ class PlayerMiniWidget extends StatelessWidget {
                     height: 70,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [Theme.of(context).accentColor, Theme.of(context).accentColor.withOpacity(0.3),Colors.transparent],
-
-                        )
-                    )
-                ),
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Theme.of(context).accentColor,
+                        Theme.of(context).accentColor.withOpacity(0.3),
+                        Colors.transparent
+                      ],
+                    ))),
               ),
-
               Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child:
-                Container(
+                child: Container(
                     height: 30,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                       color: Theme.of(context).accentColor,
-                    )
-                ),
+                    )),
               ),
-
               Positioned(
                 right: 7,
                 bottom: 7,
@@ -104,8 +107,7 @@ class PlayerMiniWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
-                          fontSize: 20
-                      ),
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -122,16 +124,13 @@ class PlayerMiniWidget extends StatelessWidget {
                           gradient: LinearGradient(
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
-                              colors: [Colors.white38, Colors.white38]
-                          )
-                      ),
+                              colors: [Colors.white38, Colors.white38])),
                       child: Padding(
                         padding: const EdgeInsets.all(1.5),
                         child: ClipOval(
                           child: Container(
-                            child: Image.network(
-                                player.country_image,fit: BoxFit.cover
-                            ),
+                            child: Image.network(player.country_image,
+                                fit: BoxFit.cover),
                           ),
                         ),
                       ),
@@ -143,28 +142,21 @@ class PlayerMiniWidget extends StatelessWidget {
                   bottom: 7,
                   left: 7,
                   right: 0,
-                  child:
-                  Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(player.fname.toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 11
-                        ),
+                      Text(
+                        player.fname.toUpperCase(),
+                        style: TextStyle(color: Colors.white70, fontSize: 11),
                       ),
-                      Text(player.lname.toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 11
-                        ),
+                      Text(
+                        player.lname.toUpperCase(),
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       )
                     ],
-                  )
-              ),
-
+                  )),
             ],
           ),
         ),

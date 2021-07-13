@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -25,8 +23,6 @@ import 'package:myteam/screens/loading.dart';
 import 'dart:convert' as convert;
 
 class PrivacyPolicy extends StatefulWidget {
-
-
   PrivacyPolicy();
 
   @override
@@ -34,66 +30,65 @@ class PrivacyPolicy extends StatefulWidget {
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
-  String _data ="Loading ...";
-
+  String _data = "Loading ...";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
-
   }
-  getData()async{
-    String     d  = await http.read(apiConfig.api_url.replaceAll("/api/", "/privacy_policy.html"));
+
+  getData() async {
+    String d = await http
+        .read(apiConfig.api_url.replaceAll("/api/", "/privacy_policy.html"));
     setState(() {
-      _data =d;
+      _data = d;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
-          centerTitle: false,
-          title: Text("Privacy policy"),
-          elevation: 0,
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyText1.color),
-          leading: new IconButton(
-            icon: new Icon(LineIcons.angle_left),
-            onPressed: () => Navigator.of(context).pop(),
-          )
-        ),
-        body:SingleChildScrollView(
-            child:
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: Html(
-                    data:_data,
-                    style: {
-                      "*": Style(
-                        color: Theme.of(context).textTheme.bodyText1.color,
-                      ),
-                    },
-                    onImageTap: (url) {
-                      Route route = MaterialPageRoute(builder: (context) => ImageViewer(url:url));
-                      Navigator.push(context, route);
-                    },
-                    onLinkTap:(url){
-                      _launchURL(url);
-                    } ,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            centerTitle: false,
+            title: Text("Privacy policy"),
+            elevation: 0,
+            iconTheme: IconThemeData(
+                color: Theme.of(context).textTheme.bodyText1.color),
+            leading: new IconButton(
+              icon: new Icon(LineIcons.angle_left),
+              onPressed: () => Navigator.of(context).pop(),
+            )),
+        body: SingleChildScrollView(
+            child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(5),
+              child: Html(
+                data: _data,
+                style: {
+                  "*": Style(
+                    color: Theme.of(context).textTheme.bodyText1.color,
                   ),
-                ),
-                SizedBox(height: 20),
-              ],
-            )
-        )
-    );
-
+                },
+                onImageTap: (url) {
+                  Route route = MaterialPageRoute(
+                      builder: (context) => ImageViewer(url: url));
+                  Navigator.push(context, route);
+                },
+                onLinkTap: (url) {
+                  _launchURL(url);
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        )));
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -101,8 +96,4 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       throw 'Could not launch $url';
     }
   }
-
-
-
-
 }

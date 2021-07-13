@@ -6,22 +6,21 @@ class Social {
   final String color;
   final String icon;
 
-  Social(  {this.id, this.social,this.value,this.username, this.color,this.icon});
+  Social(
+      {this.id, this.social, this.value, this.username, this.color, this.icon});
 
-  factory Social.fromJson(Map<String, dynamic> parsedJson){
-
+  factory Social.fromJson(Map<String, dynamic> parsedJson) {
     return Social(
         id: parsedJson['id'],
-        social : parsedJson['social'],
-        value : parsedJson['value'],
-        username : parsedJson['username'],
-        color : parsedJson['color'],
-        icon : parsedJson['icon']
-    );
+        social: parsedJson['social'],
+        value: parsedJson['value'],
+        username: parsedJson['username'],
+        color: parsedJson['color'],
+        icon: parsedJson['icon']);
   }
 
   int getColor() {
-    String hexColor= this.color;
+    String hexColor = this.color;
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
       hexColor = "FF" + hexColor;

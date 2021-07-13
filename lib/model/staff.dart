@@ -1,4 +1,3 @@
-
 class Staff {
   final int id;
   final String name;
@@ -6,16 +5,15 @@ class Staff {
   final String image;
   final String bio;
 
+  Staff({this.id, this.name, this.status, this.image, this.bio});
 
-  Staff({this.id, this.name,this.status, this.image,this.bio});
-
-  factory Staff.fromJson(Map<String, dynamic> parsedJson){
+  factory Staff.fromJson(Map<String, dynamic> parsedJson) {
     return Staff(
       id: parsedJson['id'],
-      name : parsedJson['name'],
-      status : parsedJson['status'],
-      image : parsedJson ['image'],
-      bio : parsedJson ['bio'],
+      name: parsedJson['name'],
+      status: parsedJson['status'],
+      image: parsedJson['image'],
+      bio: parsedJson['bio'],
     );
   }
 }
