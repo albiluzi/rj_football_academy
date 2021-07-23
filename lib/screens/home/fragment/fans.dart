@@ -234,14 +234,12 @@ class _FansState extends State<Fans> {
                 return TitleHomeWidget(title: "Fans Area");
               } else if (statusList[index].id == -1) {
                 return CreateWidget();
-              }
-              // else if (statusList[index].id == -5) {
-              //   return AdmobNativeAdItem(adUnitID: admob_native_ad_id);
-              // } else if (statusList[index].id == -6) {
-              //   return FacebookNativeAdItem(
-              //       PLACEMENT_ID: facebook_native_ad_id);
-              // }
-              else {
+              } else if (statusList[index].id == -5) {
+                return AdmobNativeAdItem(adUnitID: admob_native_ad_id);
+              } else if (statusList[index].id == -6) {
+                return FacebookNativeAdItem(
+                    PLACEMENT_ID: facebook_native_ad_id);
+              } else {
                 return StatusWidget(
                     status: statusList[index],
                     liked: statusLiked,

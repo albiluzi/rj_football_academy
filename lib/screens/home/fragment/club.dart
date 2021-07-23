@@ -232,7 +232,7 @@ class _ClubState extends State<Club> {
             itemCount: teamList.length,
             itemBuilder: (context, index) {
               if (teamList[index].id == null) {
-                return TitleHomeWidget(title: "The club");
+                return TitleHomeWidget(title: "Rreth Nesh");
               } else if (teamList[index].id == -1) {
                 return Container(
                   height: 55,
@@ -287,46 +287,47 @@ class _ClubState extends State<Club> {
             MaterialPageRoute(builder: (context) => TrophiesList(team: team));
         break;
     }
-    if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
-      if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
-        adsProvider.setInterstitialLocal("FACEBOOK");
-        _admobInterstitialAd.show();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
-          _isInterstitialAdLoaded) {
-        adsProvider.setInterstitialLocal("ADMOB");
-        FacebookInterstitialAd.showInterstitialAd();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else {
-        if (adsProvider.getInterstitialLocal() == "ADMOB") {
-          adsProvider.setInterstitialLocal("FACEBOOK");
-        } else {
-          adsProvider.setInterstitialLocal("ADMOB");
-        }
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-        Navigator.push(context, team_route);
-      }
-    } else if (_isInterstitialAdLoaded &&
-        ads_interstitial_type == "FACEBOOK" &&
-        should_be_displaed == 0) {
-      FacebookInterstitialAd.showInterstitialAd();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else if (_interstitialReady &&
-        ads_interstitial_type == "ADMOB" &&
-        should_be_displaed == 0) {
-      _admobInterstitialAd.show();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else {
-      should_be_displaed = (should_be_displaed >= ads_interstitial_click)
-          ? 0
-          : should_be_displaed + 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-      Navigator.push(context, team_route);
-    }
+    Navigator.push(context, team_route);
+    // if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
+    //   if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
+    //     adsProvider.setInterstitialLocal("FACEBOOK");
+    //     _admobInterstitialAd.show();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
+    //       _isInterstitialAdLoaded) {
+    //     adsProvider.setInterstitialLocal("ADMOB");
+    //     FacebookInterstitialAd.showInterstitialAd();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else {
+    //     if (adsProvider.getInterstitialLocal() == "ADMOB") {
+    //       adsProvider.setInterstitialLocal("FACEBOOK");
+    //     } else {
+    //       adsProvider.setInterstitialLocal("ADMOB");
+    //     }
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //     Navigator.push(context, team_route);
+    //   }
+    // } else if (_isInterstitialAdLoaded &&
+    //     ads_interstitial_type == "FACEBOOK" &&
+    //     should_be_displaed == 0) {
+    //   FacebookInterstitialAd.showInterstitialAd();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else if (_interstitialReady &&
+    //     ads_interstitial_type == "ADMOB" &&
+    //     should_be_displaed == 0) {
+    //   _admobInterstitialAd.show();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else {
+    //   should_be_displaed = (should_be_displaed >= ads_interstitial_click)
+    //       ? 0
+    //       : should_be_displaed + 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   Navigator.push(context, team_route);
+    // }
   }
 }

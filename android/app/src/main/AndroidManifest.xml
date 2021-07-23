@@ -12,7 +12,7 @@
 
     <application
         android:name=".Application"
-        android:label="MyApplication - Android"
+        android:label="Redi Jupi Football Republic"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
 

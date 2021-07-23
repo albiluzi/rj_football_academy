@@ -267,7 +267,7 @@ class _SplashState extends State<Splash> {
   }
 
   void redirectTo() {
-    Future.delayed(const Duration(milliseconds: 4000), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       if (widget.data != null) {
         if (widget.type == "link") {
           _launchURL(widget.data);
@@ -302,6 +302,7 @@ class _SplashState extends State<Splash> {
     var statusCode;
     try {
       response = await http.get(apiRest.getAppConfig());
+      print(response);
       jsonData = convert.jsonDecode(response.body);
       print(jsonData);
       statusCode = response.statusCode;

@@ -48,19 +48,19 @@ class _VideoDetailState extends ResumableState<VideoDetail> {
     adsProvider = AdsProvider(prefs,
         (Platform.isAndroid) ? TargetPlatform.android : TargetPlatform.iOS);
     print(adsProvider.getBannerType());
-    if (adsProvider.getBannerType() == "ADMOB") {
-      showAdmobBanner();
-    } else if (adsProvider.getBannerType() == "FACEBOOK") {
-      showFacebookBanner();
-    } else if (adsProvider.getBannerType() == "BOTH") {
-      if (adsProvider.getBannerLocal() == "FACEBOOK") {
-        adsProvider.setBannerLocal("ADMOB");
-        showFacebookBanner();
-      } else {
-        adsProvider.setBannerLocal("FACEBOOK");
-        showAdmobBanner();
-      }
-    }
+    // if (adsProvider.getBannerType() == "ADMOB") {
+    //   showAdmobBanner();
+    // } else if (adsProvider.getBannerType() == "FACEBOOK") {
+    //   showFacebookBanner();
+    // } else if (adsProvider.getBannerType() == "BOTH") {
+    //   if (adsProvider.getBannerLocal() == "FACEBOOK") {
+    //     adsProvider.setBannerLocal("ADMOB");
+    //     showFacebookBanner();
+    //   } else {
+    //     adsProvider.setBannerLocal("FACEBOOK");
+    //     showAdmobBanner();
+    //   }
+    // }
   }
 
   showFacebookBanner() {

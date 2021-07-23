@@ -343,15 +343,16 @@ class _DefaultState extends State<Default> {
                   future: initAppInfos(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData)
-                      return Opacity(
-                          child: CachedNetworkImage(
-                            height: 240,
-                            imageUrl: snapshot.data,
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            fit: BoxFit.fitWidth,
-                          ),
-                          opacity: 0.9);
+                      // return Opacity(
+                      //     child: CachedNetworkImage(
+                      //       height: 240,
+                      //       imageUrl: snapshot.data,
+                      //       errorWidget: (context, url, error) =>
+                      //           Icon(Icons.error),
+                      //       fit: BoxFit.fitWidth,
+                      //     ),
+                      //     opacity: 0.9);
+                      return Text("");
                     else
                       return Text("");
                   })),
@@ -440,14 +441,12 @@ class _DefaultState extends State<Default> {
                         return SondageWidget(question: questionsList[index]);
                       }),
                 );
-              }
-              // else if (postsList[index].id == -5) {
-              //   return AdmobNativeAdItem(adUnitID: admob_native_ad_id);
-              // } else if (postsList[index].id == -6) {
-              //   return FacebookNativeAdItem(
-              //       PLACEMENT_ID: facebook_native_ad_id);
-              // }
-              else {
+                // } else if (postsList[index].id == -5) {
+                //   return AdmobNativeAdItem(adUnitID: admob_native_ad_id);
+                // } else if (postsList[index].id == -6) {
+                //   return FacebookNativeAdItem(
+                //       PLACEMENT_ID: facebook_native_ad_id);
+              } else {
                 return PostWidget(
                     post: postsList[index],
                     favorite: postFavorite,
@@ -487,47 +486,49 @@ class _DefaultState extends State<Default> {
                 PostDetail(post: post, postFavorite: _postFavorite));
         break;
     }
-    if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
-      if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
-        adsProvider.setInterstitialLocal("FACEBOOK");
-        _admobInterstitialAd.show();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
-          _isInterstitialAdLoaded) {
-        adsProvider.setInterstitialLocal("ADMOB");
-        FacebookInterstitialAd.showInterstitialAd();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else {
-        if (adsProvider.getInterstitialLocal() == "ADMOB") {
-          adsProvider.setInterstitialLocal("FACEBOOK");
-        } else {
-          adsProvider.setInterstitialLocal("ADMOB");
-        }
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-        Navigator.push(context, post_route);
-      }
-    } else if (_isInterstitialAdLoaded &&
-        ads_interstitial_type == "FACEBOOK" &&
-        should_be_displaed == 0) {
-      FacebookInterstitialAd.showInterstitialAd();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else if (_interstitialReady &&
-        ads_interstitial_type == "ADMOB" &&
-        should_be_displaed == 0) {
-      _admobInterstitialAd.show();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else {
-      should_be_displaed = (should_be_displaed >= ads_interstitial_click)
-          ? 0
-          : should_be_displaed + 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-      Navigator.push(context, post_route);
-    }
+    Navigator.push(context, post_route);
+
+    // if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
+    //   if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
+    //     adsProvider.setInterstitialLocal("FACEBOOK");
+    //     _admobInterstitialAd.show();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
+    //       _isInterstitialAdLoaded) {
+    //     adsProvider.setInterstitialLocal("ADMOB");
+    //     FacebookInterstitialAd.showInterstitialAd();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else {
+    //     if (adsProvider.getInterstitialLocal() == "ADMOB") {
+    //       adsProvider.setInterstitialLocal("FACEBOOK");
+    //     } else {
+    //       adsProvider.setInterstitialLocal("ADMOB");
+    //     }
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //     Navigator.push(context, post_route);
+    //   }
+    // } else if (_isInterstitialAdLoaded &&
+    //     ads_interstitial_type == "FACEBOOK" &&
+    //     should_be_displaed == 0) {
+    //   FacebookInterstitialAd.showInterstitialAd();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else if (_interstitialReady &&
+    //     ads_interstitial_type == "ADMOB" &&
+    //     should_be_displaed == 0) {
+    //   _admobInterstitialAd.show();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else {
+    //   should_be_displaed = (should_be_displaed >= ads_interstitial_click)
+    //       ? 0
+    //       : should_be_displaed + 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   Navigator.push(context, post_route);
+    // }
   }
 
   postFavorite(Post post) async {

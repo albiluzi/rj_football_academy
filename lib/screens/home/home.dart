@@ -211,55 +211,55 @@ class _HomeState extends ResumableState<Home> {
                       actions: <Widget>[
                         // LiveWidget(),
                         buildProfileImahe(context),
-                        Stack(
-                          children: [
-                            Positioned(
-                                child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  themeChange.darkTheme =
-                                      !themeChange.darkTheme;
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  height: 28,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2
-                                          .color,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Stack(
-                                    children: [
-                                      AnimatedPositioned(
-                                          duration: Duration(milliseconds: 250),
-                                          left:
-                                              (themeChange.darkTheme) ? 1 : 28,
-                                          top: 1,
-                                          bottom: 1,
-                                          child: Container(
-                                            height: 26,
-                                            width: 26,
-                                            child: Icon(
-                                              (themeChange.darkTheme)
-                                                  ? Icons.wb_sunny
-                                                  : Icons.nights_stay_rounded,
-                                              size: 16,
-                                            ),
-                                            decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ))
-                          ],
-                        ),
+                        //   Stack(
+                        //     children: [
+                        //       Positioned(
+                        //           child: Center(
+                        //         child: GestureDetector(
+                        //           onTap: () {
+                        //             themeChange.darkTheme =
+                        //                 !themeChange.darkTheme;
+                        //           },
+                        //           child: Container(
+                        //             margin: EdgeInsets.only(right: 10),
+                        //             height: 28,
+                        //             width: 55,
+                        //             decoration: BoxDecoration(
+                        //                 color: Theme.of(context)
+                        //                     .textTheme
+                        //                     .bodyText2
+                        //                     .color,
+                        //                 borderRadius: BorderRadius.circular(20)),
+                        //             child: Stack(
+                        //               children: [
+                        //                 AnimatedPositioned(
+                        //                     duration: Duration(milliseconds: 250),
+                        //                     left:
+                        //                         (themeChange.darkTheme) ? 1 : 28,
+                        //                     top: 1,
+                        //                     bottom: 1,
+                        //                     child: Container(
+                        //                       height: 26,
+                        //                       width: 26,
+                        //                       child: Icon(
+                        //                         (themeChange.darkTheme)
+                        //                             ? Icons.wb_sunny
+                        //                             : Icons.nights_stay_rounded,
+                        //                         size: 16,
+                        //                       ),
+                        //                       decoration: BoxDecoration(
+                        //                           color: Theme.of(context)
+                        //                               .primaryColor,
+                        //                           borderRadius:
+                        //                               BorderRadius.circular(20)),
+                        //                     ))
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ))
+                        //     ],
+                        //   ),
                       ],
                     ),
                     body: PageView.builder(
@@ -280,7 +280,7 @@ class _HomeState extends ResumableState<Home> {
             ),
           ),
           AnimatedPositioned(
-              top: (openMenu == true)
+              left: (openMenu == true)
                   ? 0
                   : (-(MediaQuery.of(context).size.height)),
               child: Container(
@@ -289,7 +289,7 @@ class _HomeState extends ResumableState<Home> {
                   color: Theme.of(context).accentColor,
                 ),
                 height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width - 50,
                 child: Scaffold(
                   backgroundColor: Colors.transparent,
                   body: SafeArea(
@@ -345,7 +345,7 @@ class _HomeState extends ResumableState<Home> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(LineIcons.angle_up,
+                                    Icon(LineIcons.angle_left,
                                         color: Theme.of(context).accentColor,
                                         size: 18),
                                   ],
@@ -378,9 +378,9 @@ class _HomeState extends ResumableState<Home> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.all(15),
-                height: 50,
-                width: 50,
+                margin: EdgeInsets.all(10),
+                height: 45,
+                width: 45,
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(10),
@@ -391,7 +391,7 @@ class _HomeState extends ResumableState<Home> {
                   child: Text(
                 title,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               )),

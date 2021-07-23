@@ -258,46 +258,47 @@ class _ArticlesListState extends State<ArticlesList> {
   navigate(Article article) {
     article_route = MaterialPageRoute(
         builder: (context) => ArticleDetail(article: article));
-    if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
-      if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
-        adsProvider.setInterstitialLocal("FACEBOOK");
-        _admobInterstitialAd.show();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
-          _isInterstitialAdLoaded) {
-        adsProvider.setInterstitialLocal("ADMOB");
-        FacebookInterstitialAd.showInterstitialAd();
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-      } else {
-        if (adsProvider.getInterstitialLocal() == "ADMOB") {
-          adsProvider.setInterstitialLocal("FACEBOOK");
-        } else {
-          adsProvider.setInterstitialLocal("ADMOB");
-        }
-        should_be_displaed = 1;
-        adsProvider.setInterstitialClicksStep(should_be_displaed);
-        Navigator.push(context, article_route);
-      }
-    } else if (_isInterstitialAdLoaded &&
-        ads_interstitial_type == "FACEBOOK" &&
-        should_be_displaed == 0) {
-      FacebookInterstitialAd.showInterstitialAd();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else if (_interstitialReady &&
-        ads_interstitial_type == "ADMOB" &&
-        should_be_displaed == 0) {
-      _admobInterstitialAd.show();
-      should_be_displaed = 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-    } else {
-      should_be_displaed = (should_be_displaed >= ads_interstitial_click)
-          ? 0
-          : should_be_displaed + 1;
-      adsProvider.setInterstitialClicksStep(should_be_displaed);
-      Navigator.push(context, article_route);
-    }
+    Navigator.push(context, article_route);
+    // if (ads_interstitial_type == "BOTH" && should_be_displaed == 0) {
+    //   if (adsProvider.getInterstitialLocal() == "ADMOB" && _interstitialReady) {
+    //     adsProvider.setInterstitialLocal("FACEBOOK");
+    //     _admobInterstitialAd.show();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else if (adsProvider.getInterstitialLocal() == "FACEBOOK" &&
+    //       _isInterstitialAdLoaded) {
+    //     adsProvider.setInterstitialLocal("ADMOB");
+    //     FacebookInterstitialAd.showInterstitialAd();
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   } else {
+    //     if (adsProvider.getInterstitialLocal() == "ADMOB") {
+    //       adsProvider.setInterstitialLocal("FACEBOOK");
+    //     } else {
+    //       adsProvider.setInterstitialLocal("ADMOB");
+    //     }
+    //     should_be_displaed = 1;
+    //     adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //     Navigator.push(context, article_route);
+    //   }
+    // } else if (_isInterstitialAdLoaded &&
+    //     ads_interstitial_type == "FACEBOOK" &&
+    //     should_be_displaed == 0) {
+    //   FacebookInterstitialAd.showInterstitialAd();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else if (_interstitialReady &&
+    //     ads_interstitial_type == "ADMOB" &&
+    //     should_be_displaed == 0) {
+    //   _admobInterstitialAd.show();
+    //   should_be_displaed = 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    // } else {
+    //   should_be_displaed = (should_be_displaed >= ads_interstitial_click)
+    //       ? 0
+    //       : should_be_displaed + 1;
+    //   adsProvider.setInterstitialClicksStep(should_be_displaed);
+    //   Navigator.push(context, article_route);
+    // }
   }
 }

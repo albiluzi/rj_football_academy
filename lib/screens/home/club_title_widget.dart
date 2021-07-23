@@ -39,9 +39,7 @@ class ClubItemWidget extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: (team.position % 2 == 0)
-                          ? Colors.black.withOpacity(0.45)
-                          : Theme.of(context).accentColor.withOpacity(0.45),
+                      color: Colors.black.withOpacity(0.45),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.black54.withOpacity(0.2),

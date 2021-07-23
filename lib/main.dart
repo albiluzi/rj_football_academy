@@ -230,8 +230,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme =
-        await themeChangeProvider.themePreference.getTheme();
+    themeChangeProvider.darkTheme = true;
   }
 
   void getAppName() {

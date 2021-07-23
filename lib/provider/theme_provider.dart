@@ -3,7 +3,7 @@ import 'package:myteam/provider/theme_preference.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemePreference themePreference = ThemePreference();
-  bool _darkTheme = false;
+  bool _darkTheme = true;
 
   bool get darkTheme => _darkTheme;
 

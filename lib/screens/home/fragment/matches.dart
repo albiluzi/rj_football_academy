@@ -337,17 +337,16 @@ class _MatchesState extends State<Matches> {
                       primary: false,
                       itemCount: matchesList.length,
                       itemBuilder: (context, jndex) {
-                        // if (matchesList[jndex].id == -5) {
-                        //   return AdmobNativeAdItem(
-                        //       adUnitID: admob_native_ad_id);
-                        // } else if (matchesList[jndex].id == -6) {
-                        //   return FacebookNativeAdItem(
-                        //       PLACEMENT_ID: facebook_native_ad_id);
-                        // }
-                        // else {
-                        return MatchMiniWidget(
-                            match: matchesList[jndex], navigate: navigate);
-                        // }
+                        if (matchesList[jndex].id == -5) {
+                          return AdmobNativeAdItem(
+                              adUnitID: admob_native_ad_id);
+                        } else if (matchesList[jndex].id == -6) {
+                          return FacebookNativeAdItem(
+                              PLACEMENT_ID: facebook_native_ad_id);
+                        } else {
+                          return MatchMiniWidget(
+                              match: matchesList[jndex], navigate: navigate);
+                        }
                       },
                     );
                     break;
